@@ -3,7 +3,7 @@ const typeDefs = `
         _id: ID
         username: String
         email: String
-        bookCount: Number
+        bookCount: Int
         savedBooks: [Book]
     }
 
@@ -31,7 +31,7 @@ const typeDefs = `
     }
 
     type Query {
-        me: Profile
+        me: User
     }
 
     type Mutation {

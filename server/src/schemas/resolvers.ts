@@ -20,7 +20,7 @@ interface AddUserArgs {
 }
 
 interface SaveBookArgs {
-   savedBooks: BookDocument[];
+   input: BookDocument[];
 }
 
 interface RemoveBookArgs {
@@ -69,11 +69,11 @@ const resolvers = {
             return { token, user };
         },
 
-        saveBook: async (_parent: unknown, { savedBooks }: SaveBookArgs, context: Context): Promise<User | null> => {
+        saveBook: async (_parent: unknown, { input }: SaveBookArgs, context: Context): Promise<User | null> => {
             if (context.user) {
                 return await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $addToSet: { savedBooks: savedBooks } },
+                    { $addToSet: { savedBooks: input } },
                     { runValidators: true, new: true }
                 );
             }
@@ -84,7 +84,7 @@ const resolvers = {
             if (context.user) {
                 return await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $pull: {savedBooks: bookId} },
+                    { $pull: { savedBooks: { bookId: bookId } } },
                     { new: true }
                 );
             }

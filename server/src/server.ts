@@ -6,6 +6,8 @@ import { expressMiddleware } from '@apollo/server/express4';
 import { typeDefs, resolvers } from './schemas/index.js';
 import { authenticateToken } from './services/auth.js';
 
+const __dirname = path.resolve();
+
 const server = new ApolloServer({
   typeDefs,
   resolvers
@@ -29,7 +31,7 @@ const startApolloServer = async () => {
 
   // if we're in production, serve client/build as static assets
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/build')));
+    app.use(express.static(`${__dirname}../client/dist`));
   }
 
   app.listen(PORT, () => {
